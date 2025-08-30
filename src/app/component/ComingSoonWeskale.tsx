@@ -46,12 +46,8 @@ const GlowDivider: React.FC = () => (
 
 const BrandMark: React.FC = () => (
     <div className="flex items-center gap-3">
-        <div className="relative h-9 w-9">
-            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-600 via-violet-600 to-fuchsia-600 blur-[6px] opacity-60" />
-            <span className="absolute inset-[3px] rounded-full bg-black/90 ring-1 ring-white/10" />
-            <span className="absolute inset-[7px] rounded-full bg-gradient-to-br from-blue-500/40 to-violet-600/40" />
-        </div>
-        <span className="text-xl font-semibold tracking-wide text-white">Weskale</span>
+
+        <span className="text-xl font-semibold tracking-wide text-white">Weskale Agency</span>
     </div>
 );
 
