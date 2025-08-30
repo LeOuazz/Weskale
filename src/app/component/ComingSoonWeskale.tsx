@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Instagram, Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
 
 type FloatingOrbProps = { className?: string; delay?: number; duration?: number };
 
@@ -46,10 +47,20 @@ const GlowDivider: React.FC = () => (
 
 const BrandMark: React.FC = () => (
     <div className="flex items-center gap-3">
-        {/* Tu peux remplacer par <Image src="/logo.svg" ... /> si tu as ton logo */}
-        <span className="text-xl font-semibold tracking-wide text-white">Weskale Agency</span>
+        <Image
+            src="/WESKALE.svg" // ton logo dans /public
+            alt="Weskale Logo"
+            width={120}        // ajuste selon ta DA
+            height={40}
+            priority
+            className="h-9 w-auto"
+        />
+        <span className="text-xl font-semibold tracking-wide text-white">
+      Weskale Agency
+    </span>
     </div>
 );
+
 
 const ComingSoonWeskale: React.FC = () => {
     const year = useMemo(() => new Date().getFullYear(), []);
