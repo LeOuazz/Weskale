@@ -107,7 +107,7 @@ const ComingSoonWeskale: React.FC = () => {
                 <BrandMark />
                 <div className="flex items-center gap-5 text-sm text-white/70">
                     <a
-                        href="#notify"
+                        href="www.instagram.com/weskaleagency"
                         className="rounded-full bg-white/5 px-4 py-2 font-medium text-white/90 backdrop-blur-md transition hover:bg-white/10"
                     >
                         Get notified
@@ -143,34 +143,7 @@ const ComingSoonWeskale: React.FC = () => {
                     <GlowDivider />
 
                     {/* form */}
-                    <motion.form
-                        id="notify"
-                        onSubmit={handleSubmit}
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.7, ease: "easeOut" }}
-                        className="mx-auto mt-10 flex w-full max-w-xl items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-2 backdrop-blur-md"
-                    >
-                        <div className="flex items-center gap-2 px-2 text-white/70">
-                            <Mail className="h-4 w-4" />
-                            <span className="text-sm">Be first to know</span>
-                        </div>
-                        <input
-                            type="email"
-                            name="email"
-                            required
-                            placeholder="Your work email"
-                            className="peer w-full rounded-xl bg-transparent px-4 py-3 text-sm text-white placeholder-white/40 outline-none"
-                        />
-                        <button
-                            type="submit"
-                            disabled={status === "loading"}
-                            className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-violet-700 px-4 py-3 text-sm font-medium text-white shadow-[0_0_30px_-10px_rgba(99,102,241,0.65)] transition hover:shadow-[0_0_40px_-8px_rgba(99,102,241,0.9)] disabled:opacity-60"
-                        >
-                            {status === "loading" ? "Sending…" : "Notify me"}
-                            <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                        </button>
-                    </motion.form>
+
 
                     {/* feedback */}
                     {status === "ok" && (
@@ -184,9 +157,6 @@ const ComingSoonWeskale: React.FC = () => {
                         </p>
                     )}
 
-                    <p className="mx-auto mt-4 max-w-xl text-xs text-white/50">
-                        No newsletter. A single alert on launch day.
-                    </p>
                 </motion.div>
             </main>
 
