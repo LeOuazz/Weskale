@@ -107,7 +107,7 @@ const ComingSoonWeskale: React.FC = () => {
                 <BrandMark />
                 <div className="flex items-center gap-5 text-sm text-white/70">
                     <a
-                        href="www.instagram.com/weskaleagency"
+                        href="https://www.instagram.com/weskaleagency"
                         className="rounded-full bg-white/5 px-4 py-2 font-medium text-white/90 backdrop-blur-md transition hover:bg-white/10"
                     >
                         Get notified
