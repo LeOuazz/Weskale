@@ -137,7 +137,7 @@ const ComingSoonWeskale: React.FC = () => {
             <footer className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-10">
                 <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/60 md:flex-row">
                     <div className="flex items-center gap-2">
-                        <span>© {year} IMY HOLDING INVESTMENTS LTD Ltd.</span>
+                        <span>© {year} Weskale Agency</span>
                         <span className="hidden md:inline">— Site in progress.</span>
                     </div>
                     <div className="flex items-center gap-4">
