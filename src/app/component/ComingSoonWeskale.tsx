@@ -95,8 +95,8 @@ const ComingSoonWeskale: React.FC = () => {
                     </h1>
 
                     <p className="mx-auto mt-5 max-w-2xl text-pretty text-base leading-relaxed text-white/70 md:text-lg">
-                        We’re building a premium, performance-driven experience: a dark interface, soft blue-violet halos,
-                        and motion engineered to convert. Built by Weskale ID-Brandlab, Weskale Digital, and Weskale Influence.
+                        We’re not just building a website.
+                        We’re crafting an experience worth waiting for.
                     </p>
 
                     <GlowDivider />
