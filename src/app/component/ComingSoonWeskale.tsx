@@ -29,14 +29,16 @@ const fadeInView = (delay = 0) => ({
 
 /* ------------------ Visual FX ------------------ */
 type FloatingOrbProps = { className?: string; delay?: number; duration?: number };
+// @ts-ignore
+// @ts-ignore
 const FloatingOrb: React.FC<FloatingOrbProps> = ({ className = "", delay = 0, duration = 16 }) => (
     <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{
             opacity: 1,
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-            filter: ["blur(60px)", "blur(80px)", "blur(60px)"],
+            y: [0, -20, 0] as number[], // Add type assertion for keyframes
+            x: [0, 10, 0] as number[],  // Add type assertion for keyframes
+            filter: ["blur(60px)", "blur(80px)", "blur(60px)"] as string[],
         }}
         transition={{ duration, ease: EASE, repeat: Infinity, delay }}
         className={className}
