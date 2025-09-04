@@ -373,7 +373,7 @@ const OnePageWeskale: React.FC = () => {
                                 title: "Identity Systems & Story",
                                 items: ["Brand platforms", "Visual systems", "Playbooks", "Go-to-market narratives"],
                                 quote:
-                                    "Identity is not decoration—it’s the operating system for trust and decision-making.",
+                                    "Identity is not decoration. It’s the operating system for trust and decision-making.",
                             },
                             {
                                 key: "digital",
