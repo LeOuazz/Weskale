@@ -499,7 +499,7 @@ const OnePageWeskale: React.FC = () => {
                     <SectionGlow />
                     <Title top="Join our network" bottom="Collaborators who ship excellence" center />
                     <p className="mx-auto mt-3 max-w-2xl text-white/70">
-                        Designers, engineers, analysts, creators — if you demand excellence and ship reliably, we want to meet you.
+                        Designers, engineers, analysts, creators. If you demand excellence and ship reliably, we want to meet you.
                     </p>
 
                     <motion.div
