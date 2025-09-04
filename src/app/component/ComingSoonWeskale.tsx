@@ -251,7 +251,7 @@ const OnePageWeskale: React.FC = () => {
                     <motion.div {...fadeInView(0.05)} className="text-center">
                         <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur-md">
                             <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
-                            <span>Premium identity. Measurable growth.</span>
+                            <span>Our journey starts here. A new website experience is in progress.</span>
                         </div>
 
                         <h1 className="mx-auto max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
