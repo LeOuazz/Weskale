@@ -194,7 +194,7 @@ const OnePageWeskale: React.FC = () => {
     const year = useMemo(() => new Date().getFullYear(), []);
     const scrollTo = useSmoothScroll();
     const [calOpen, setCalOpen] = useState(false);
-    const calendlyUrl = "https://calendly.com/your-handle/30min"; // TODO: VERIFY
+    const calendlyUrl = "https://calendly.com/contact-weskaleagency/30min?month=2025-09"; // TODO: VERIFY
 
     // Expertise modals
     const [expertise, setExpertise] = useState<null | "identity" | "digital" | "influence">(null);
