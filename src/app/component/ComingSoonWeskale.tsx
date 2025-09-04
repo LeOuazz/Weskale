@@ -1,25 +1,17 @@
 "use client";
-
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { CubicBezierDefinition } from "framer-motion";
 import { ArrowRight, Instagram, Linkedin, Mail, X as Close } from "lucide-react";
 import Image from "next/image";
 
-/* ------------------ Motion easing (typed & safe) ------------------ */
-const EASE: CubicBezierDefinition = [0.22, 1, 0.36, 1]; // smooth premium ease-out
+/* ------------------ Motion easing (fixes TS typing) ------------------ */
+const EASE: number[] = [0.22, 1, 0.36, 1]; // smooth premium ease-out
 
-/* ------------------ Utilities ------------------ */
-// Smooth scroll that accounts for sticky header height (mobile-safe)
+/* ------------------ Hooks & Motion helpers ------------------ */
 const useSmoothScroll = () => {
-    const HEADER_OFFSET = 72; // keep in sync with your header height
     return (id: string) => {
         const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const absoluteY = rect.top + window.scrollY;
-        const targetY = Math.max(absoluteY - HEADER_OFFSET, 0);
-        window.scrollTo({ top: targetY, behavior: "smooth" });
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 };
 
@@ -29,15 +21,24 @@ const useMounted = () => {
     return mounted;
 };
 
+const fadeInView = (delay = 0) => ({
+    initial: { opacity: 0, y: 14 },
+    whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE, delay } },
+    viewport: { once: true, amount: 0.2 },
+});
+
 /* ------------------ Visual FX ------------------ */
 type FloatingOrbProps = { className?: string; delay?: number; duration?: number };
+// @ts-ignore
+// @ts-ignore
 const FloatingOrb: React.FC<FloatingOrbProps> = ({ className = "", delay = 0, duration = 16 }) => (
     <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{
             opacity: 1,
-            y: [0, -20, 0] as const,
-            x: [0, 10, 0] as const,
+            y: [0, -20, 0] as number[], // Add type assertion for keyframes
+            x: [0, 10, 0] as number[],  // Add type assertion for keyframes
+            filter: ["blur(60px)", "blur(80px)", "blur(60px)"] as string[],
         }}
         transition={{ duration, ease: EASE, repeat: Infinity, delay }}
         className={className}
@@ -73,8 +74,7 @@ const GlowDivider: React.FC = () => (
 const SectionGlow: React.FC = () => (
     <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: EASE }}
+        whileInView={{ opacity: 1, transition: { duration: 0.8, ease: EASE } }}
         viewport={{ once: true, amount: 0.2 }}
         aria-hidden
         className="pointer-events-none absolute inset-x-0 -top-10 h-24 blur-3xl"
@@ -108,34 +108,21 @@ const Title: React.FC<{ top: string; bottom: string; center?: boolean }> = ({ to
 /* ------------------ Modals ------------------ */
 type ModalBaseProps = { open: boolean; onClose: () => void; children: React.ReactNode; maxW?: string };
 const ModalBase: React.FC<ModalBaseProps> = ({ open, onClose, children, maxW = "max-w-3xl" }) => {
-    // iOS-safe body lock (no jump)
+    const onEsc = useCallback(
+        (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        },
+        [onClose]
+    );
     useEffect(() => {
         if (!open) return;
-        const scrollY = window.scrollY;
-
-        const { style } = document.body;
-        const prevOverflow = style.overflow;
-        const prevPosition = style.position;
-        const prevTop = style.top;
-        const prevWidth = style.width;
-
-        style.position = "fixed";
-        style.top = `-${scrollY}px`;
-        style.width = "100%";
-        style.overflow = "hidden";
-
-        const handleKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-        window.addEventListener("keydown", handleKey);
-
+        document.body.style.overflow = "hidden";
+        window.addEventListener("keydown", onEsc);
         return () => {
-            window.removeEventListener("keydown", handleKey);
-            style.position = prevPosition;
-            style.top = prevTop;
-            style.width = prevWidth;
-            style.overflow = prevOverflow;
-            window.scrollTo(0, scrollY);
+            document.body.style.overflow = "";
+            window.removeEventListener("keydown", onEsc);
         };
-    }, [open, onClose]);
+    }, [open, onEsc]);
 
     return (
         <AnimatePresence>
@@ -143,18 +130,16 @@ const ModalBase: React.FC<ModalBaseProps> = ({ open, onClose, children, maxW = "
                 <motion.div
                     role="dialog"
                     aria-modal="true"
-                    className="fixed inset-0 z-[70] grid place-items-center bg-black/70 p-4 backdrop-blur-sm md:backdrop-blur-md"
+                    className="fixed inset-0 z-[70] grid place-items-center bg-black/70 p-4 backdrop-blur-sm"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2, ease: EASE }}
+                    animate={{ opacity: 1, transition: { duration: 0.2, ease: EASE } }}
+                    exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE } }}
                     onClick={onClose}
                 >
                     <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                        transition={{ duration: 0.25, ease: EASE }}
+                        animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.25, ease: EASE } }}
+                        exit={{ opacity: 0, y: 6, scale: 0.98, transition: { duration: 0.15, ease: EASE } }}
                         className={`relative w-full ${maxW} overflow-hidden rounded-2xl border border-white/10 bg-neutral-900`}
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -209,13 +194,15 @@ const OnePageWeskale: React.FC = () => {
     const year = useMemo(() => new Date().getFullYear(), []);
     const scrollTo = useSmoothScroll();
     const [calOpen, setCalOpen] = useState(false);
-    const calendlyUrl = "https://calendly.com/your-handle/30min"; // TODO: VERIFY
+    const calendlyUrl = "https://calendly.com/contact-weskaleagency/30min?month=2025-09"; // TODO: VERIFY
+
+    // Expertise modals
     const [expertise, setExpertise] = useState<null | "identity" | "digital" | "influence">(null);
 
     if (!mounted) return null; // avoid hydration mismatch
 
     return (
-        <div className="relative min-h-[100svh] w-full overflow-x-hidden bg-black text-white">
+        <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
             {/* Background halos */}
             <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-[var(--electric)]/20 blur-[120px]" />
             <div className="absolute top-[-10rem] right-[-6rem] h-[420px] w-[420px] rounded-full bg-violet-700/25 blur-[120px]" />
@@ -226,7 +213,7 @@ const OnePageWeskale: React.FC = () => {
             <Grain />
 
             {/* Sticky Nav */}
-            <header className="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-sm md:backdrop-blur-md">
+            <header className="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
                 <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
                     <BrandMark />
                     <nav className="hidden gap-6 text-sm text-white/80 md:flex">
@@ -261,16 +248,10 @@ const OnePageWeskale: React.FC = () => {
             <section id="home" className="scroll-mt-24">
                 <main className="relative z-10 mx-auto grid w-full max-w-5xl place-items-center px-6 pt-16 pb-28">
                     <SectionGlow />
-                    <motion.div
-                        initial={{ opacity: 0, y: 14 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="text-center"
-                    >
+                    <motion.div {...fadeInView(0.05)} className="text-center">
                         <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 backdrop-blur-md">
                             <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
-                            <span>Premium identity. Measurable growth.</span>
+                            <span>Our journey starts here. A new website experience is in progress.</span>
                         </div>
 
                         <h1 className="mx-auto max-w-4xl text-balance text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
@@ -302,13 +283,7 @@ const OnePageWeskale: React.FC = () => {
                     <GlowDivider />
 
                     {/* Clickable pillars */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 14 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                        viewport={{ once: true, amount: 0.2 }}
-                        className="mx-auto grid w-full max-w-3xl grid-cols-3 gap-4"
-                    >
+                    <motion.div {...fadeInView(0.1)} className="mx-auto grid w-full max-w-3xl grid-cols-3 gap-4">
                         {["ID Studio", "Digital", "Influence"].map((item) => (
                             <button
                                 key={item}
@@ -329,7 +304,9 @@ const OnePageWeskale: React.FC = () => {
                 <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
                     <SectionGlow />
                     <Title top="Our process" bottom="Clarity → Performance → Scale" center />
-                    <p className="mx-auto mt-3 max-w-2xl text-white/70">A premium, measurable journey from first audit to enduring growth.</p>
+                    <p className="mx-auto mt-3 max-w-2xl text-white/70">
+                        A premium, measurable journey from first audit to enduring growth.
+                    </p>
 
                     <div className="mx-auto mt-10 grid max-w-3xl gap-6 md:grid-cols-3">
                         {[
@@ -361,16 +338,14 @@ const OnePageWeskale: React.FC = () => {
                         ].map((c, i) => (
                             <motion.div
                                 key={c.title}
-                                initial={{ opacity: 0, y: 12 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, ease: EASE, delay: i * 0.03 }}
-                                viewport={{ once: true, amount: 0.2 }}
+                                {...fadeInView(i * 0.03)}
                                 className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/[0.02] p-6 text-left"
                             >
                                 <div
                                     className="absolute inset-0 -z-10 opacity-0 blur-2xl transition group-hover:opacity-100"
                                     style={{
-                                        background: "radial-gradient(120px 120px at 20% 10%, rgba(255,255,255,0.08), transparent)",
+                                        background:
+                                            "radial-gradient(120px 120px at 20% 10%, rgba(255,255,255,0.08), transparent)",
                                     }}
                                 />
                                 <h3 className="text-base font-semibold">{c.title}</h3>
@@ -386,7 +361,9 @@ const OnePageWeskale: React.FC = () => {
                 <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
                     <SectionGlow />
                     <Title top="Solutions engineered" bottom="for sustained growth" center />
-                    <p className="mx-auto mt-3 max-w-2xl text-white/70">From ID Studio to Digital build and Influence scale, we deliver end-to-end value.</p>
+                    <p className="mx-auto mt-3 max-w-2xl text-white/70">
+                        From ID Studio to Digital build and Influence scale, we deliver end-to-end value.
+                    </p>
 
                     <div className="mx-auto mt-10 grid max-w-3xl gap-6 md:grid-cols-3">
                         {[
@@ -395,29 +372,29 @@ const OnePageWeskale: React.FC = () => {
                                 badge: "ID Studio",
                                 title: "Identity Systems & Story",
                                 items: ["Brand platforms", "Visual systems", "Playbooks", "Go-to-market narratives"],
-                                quote: "Identity is not decoration—it’s the operating system for trust and decision-making.",
+                                quote:
+                                    "Identity is not decoration. It’s the operating system for trust and decision-making.",
                             },
                             {
                                 key: "digital",
                                 badge: "Digital",
                                 title: "High-Performance Build",
                                 items: ["Web & apps", "CRO & analytics", "SEO & content ops", "CRM & automations"],
-                                quote: "Software compounds. Clean architecture and tight feedback loops turn speed into advantage.",
+                                quote:
+                                    "Software compounds. Clean architecture and tight feedback loops turn speed into advantage.",
                             },
                             {
                                 key: "influence",
                                 badge: "Influence",
                                 title: "Reach & Reputation",
                                 items: ["Creator programs", "Thought leadership", "PR assets", "Paid amplification"],
-                                quote: "Distribution is strategy. The best stories win when they meet the right audience at the right time.",
+                                quote:
+                                    "Distribution is strategy. The best stories win when they meet the right audience at the right time.",
                             },
                         ].map((s, i) => (
                             <motion.article
                                 key={s.title}
-                                initial={{ opacity: 0, y: 12 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, ease: EASE, delay: i * 0.03 }}
-                                viewport={{ once: true, amount: 0.2 }}
+                                {...fadeInView(i * 0.03)}
                                 className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
                             >
                                 <button
@@ -450,10 +427,19 @@ const OnePageWeskale: React.FC = () => {
                                     <div
                                         className="absolute -inset-1 rounded-3xl blur-2xl"
                                         style={{
-                                            background: "linear-gradient(90deg, rgba(0,178,255,.18), rgba(139,92,246,.18), rgba(217,70,239,.12))",
+                                            background:
+                                                "linear-gradient(90deg, rgba(0,178,255,.18), rgba(139,92,246,.18), rgba(217,70,239,.12))",
                                         }}
                                     />
                                 </div>
+
+                                {/* Quote modal per card */}
+                                <QuoteModal
+                                    open={expertise === (s.key as "identity" | "digital" | "influence")}
+                                    onClose={() => setExpertise(null)}
+                                    title={s.badge}
+                                    quote={s.quote}
+                                />
                             </motion.article>
                         ))}
                     </div>
@@ -468,13 +454,7 @@ const OnePageWeskale: React.FC = () => {
                     <p className="mx-auto mt-3 max-w-2xl text-white/70">We’ll architect the most efficient path to get there.</p>
 
                     <div className="mx-auto mt-8 grid max-w-3xl gap-6 md:grid-cols-2">
-                        <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
-                        >
+                        <motion.div {...fadeInView(0.05)} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left">
                             <h3 className="text-lg font-semibold">Book a strategy call</h3>
                             <p className="mt-2 text-sm text-white/70">30 minutes to align on goals, constraints, and growth levers.</p>
                             <div className="mt-4">
@@ -487,20 +467,14 @@ const OnePageWeskale: React.FC = () => {
                             </div>
                         </motion.div>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 12 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                            viewport={{ once: true, amount: 0.2 }}
-                            className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
-                        >
+                        <motion.div {...fadeInView(0.1)} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left">
                             <h3 className="text-lg font-semibold">Email</h3>
                             <p className="mt-2 text-sm text-white/70">Prefer writing? We read every message.</p>
                             <a
                                 href="mailto:hello@weskale.com"
                                 className="mt-4 inline-flex items-center gap-2 text-sm text-white/90 underline-offset-4 hover:underline"
                             >
-                                <Mail className="h-4 w-4" /> hello@weskale.com
+                                <Mail className="h-4 w-4" /> contact@weskaleagency.com
                             </a>
                             <div className="mt-4 flex items-center gap-4 text-white/70">
                                 <a href="https://www.instagram.com/weskaleagency" aria-label="Instagram" className="hover:text-white">
@@ -525,21 +499,18 @@ const OnePageWeskale: React.FC = () => {
                     <SectionGlow />
                     <Title top="Join our network" bottom="Collaborators who ship excellence" center />
                     <p className="mx-auto mt-3 max-w-2xl text-white/70">
-                        Designers, engineers, analysts, creators — if you demand excellence and ship reliably, we want to meet you.
+                        Designers, engineers, analysts, creators. If you demand excellence and ship reliably, we want to meet you.
                     </p>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 12 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                        viewport={{ once: true, amount: 0.2 }}
+                        {...fadeInView(0.1)}
                         className="mx-auto mt-8 flex max-w-3xl flex-col items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-6 md:flex-row md:items-center md:justify-between"
                     >
                         <p className="text-sm text-white/75">
                             Share your portfolio and two projects you’re proud of. We review weekly.
                         </p>
                         <a
-                            href="mailto:talent@weskale.com?subject=Join%20Weskale%20Network&body=Hi%20Weskale%2C%0D%0A%0D%0AHere%20are%20my%20links%20and%20two%20flagship%20projects%3A%0D%0A-%20%0D%0A-%20%0D%0A"
+                            href="mailto:talent@weskaleagency.com?subject=Join%20Weskale%20Network&body=Hi%20Weskale%2C%0D%0A%0D%0AHere%20are%20my%20links%20and%20two%20flagship%20projects%3A%0D%0A-%20%0D%0A-%20%0D%0A"
                             className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm text-white transition hover:bg-white/10"
                         >
                             Apply via email <ArrowRight className="h-4 w-4" />
@@ -553,7 +524,7 @@ const OnePageWeskale: React.FC = () => {
                 <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/60 md:flex-row">
                     <div className="flex items-center gap-2">
                         <span>© {year} Weskale Agency</span>
-                        <span className="hidden md:inline">— Built with clarity, performance, and scale.</span>
+                        <span className="hidden md:inline">— Built with clarity, performance, and scale. by LeOuazz</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <a href="https://www.instagram.com/weskaleagency" className="hover:text-white/90" aria-label="Instagram">
@@ -571,8 +542,10 @@ const OnePageWeskale: React.FC = () => {
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[var(--electric)]/10 via-violet-500/10 to-transparent blur-2xl" />
             </footer>
 
-            {/* Global modals (controlled by state) */}
+            {/* Modals */}
             <CalendlyModal open={calOpen} onClose={() => setCalOpen(false)} url={calendlyUrl} />
+
+            {/* Expertise quote modals (mounted once; controlled by state) */}
             <QuoteModal
                 open={expertise === "identity"}
                 onClose={() => setExpertise(null)}
