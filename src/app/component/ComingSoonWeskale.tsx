@@ -474,7 +474,7 @@ const OnePageWeskale: React.FC = () => {
                                 href="mailto:hello@weskale.com"
                                 className="mt-4 inline-flex items-center gap-2 text-sm text-white/90 underline-offset-4 hover:underline"
                             >
-                                <Mail className="h-4 w-4" /> hello@weskale.com
+                                <Mail className="h-4 w-4" /> contact@weskaleagency.com
                             </a>
                             <div className="mt-4 flex items-center gap-4 text-white/70">
                                 <a href="https://www.instagram.com/weskaleagency" aria-label="Instagram" className="hover:text-white">
@@ -510,7 +510,7 @@ const OnePageWeskale: React.FC = () => {
                             Share your portfolio and two projects you’re proud of. We review weekly.
                         </p>
                         <a
-                            href="mailto:talent@weskale.com?subject=Join%20Weskale%20Network&body=Hi%20Weskale%2C%0D%0A%0D%0AHere%20are%20my%20links%20and%20two%20flagship%20projects%3A%0D%0A-%20%0D%0A-%20%0D%0A"
+                            href="mailto:talent@weskaleagency.com?subject=Join%20Weskale%20Network&body=Hi%20Weskale%2C%0D%0A%0D%0AHere%20are%20my%20links%20and%20two%20flagship%20projects%3A%0D%0A-%20%0D%0A-%20%0D%0A"
                             className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm text-white transition hover:bg-white/10"
                         >
                             Apply via email <ArrowRight className="h-4 w-4" />
@@ -524,7 +524,7 @@ const OnePageWeskale: React.FC = () => {
                 <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/60 md:flex-row">
                     <div className="flex items-center gap-2">
                         <span>© {year} Weskale Agency</span>
-                        <span className="hidden md:inline">— Built with clarity, performance, and scale.</span>
+                        <span className="hidden md:inline">— Built with clarity, performance, and scale. by LeOuazz</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <a href="https://www.instagram.com/weskaleagency" className="hover:text-white/90" aria-label="Instagram">
