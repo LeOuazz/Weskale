@@ -1,17 +1,24 @@
 "use client";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { CubicBezierDefinition, MotionProps } from "framer-motion";
 import { ArrowRight, Instagram, Linkedin, Mail, X as Close } from "lucide-react";
 import Image from "next/image";
 
-/* ------------------ Motion easing (fixes TS typing) ------------------ */
-const EASE: number[] = [0.22, 1, 0.36, 1]; // smooth premium ease-out
+/* ------------------ Motion easing (typed, no TS errors) ------------------ */
+const EASE: CubicBezierDefinition = [0.22, 1, 0.36, 1]; // smooth premium ease-out
 
 /* ------------------ Hooks & Motion helpers ------------------ */
+// Smooth scroll that accounts for sticky header height (mobile-safe)
 const useSmoothScroll = () => {
+    const HEADER_OFFSET = 72; // keep in sync with your header height
     return (id: string) => {
         const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const absoluteY = rect.top + window.scrollY;
+        const targetY = Math.max(absoluteY - HEADER_OFFSET, 0);
+        window.scrollTo({ top: targetY, behavior: "smooth" });
     };
 };
 
@@ -21,7 +28,7 @@ const useMounted = () => {
     return mounted;
 };
 
-const fadeInView = (delay = 0) => ({
+const fadeInView = (delay = 0): Pick<MotionProps, "initial" | "whileInView" | "viewport"> => ({
     initial: { opacity: 0, y: 14 },
     whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE, delay } },
     viewport: { once: true, amount: 0.2 },
@@ -29,16 +36,15 @@ const fadeInView = (delay = 0) => ({
 
 /* ------------------ Visual FX ------------------ */
 type FloatingOrbProps = { className?: string; delay?: number; duration?: number };
-// @ts-ignore
-// @ts-ignore
 const FloatingOrb: React.FC<FloatingOrbProps> = ({ className = "", delay = 0, duration = 16 }) => (
     <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{
             opacity: 1,
-            y: [0, -20, 0] as number[], // Add type assertion for keyframes
-            x: [0, 10, 0] as number[],  // Add type assertion for keyframes
-            filter: ["blur(60px)", "blur(80px)", "blur(60px)"] as string[],
+            y: [0, -20, 0] as const,
+            x: [0, 10, 0] as const,
+            // Keep your blur sheen; typed as const so TS is happy:
+            filter: ["blur(60px)", "blur(80px)", "blur(60px)"] as const,
         }}
         transition={{ duration, ease: EASE, repeat: Infinity, delay }}
         className={className}
@@ -108,21 +114,34 @@ const Title: React.FC<{ top: string; bottom: string; center?: boolean }> = ({ to
 /* ------------------ Modals ------------------ */
 type ModalBaseProps = { open: boolean; onClose: () => void; children: React.ReactNode; maxW?: string };
 const ModalBase: React.FC<ModalBaseProps> = ({ open, onClose, children, maxW = "max-w-3xl" }) => {
-    const onEsc = useCallback(
-        (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
-        },
-        [onClose]
-    );
+    // iOS-safe body lock (no jump)
     useEffect(() => {
         if (!open) return;
-        document.body.style.overflow = "hidden";
-        window.addEventListener("keydown", onEsc);
+        const scrollY = window.scrollY;
+
+        const { style } = document.body;
+        const prevOverflow = style.overflow;
+        const prevPosition = style.position;
+        const prevTop = style.top;
+        const prevWidth = style.width;
+
+        style.position = "fixed";
+        style.top = `-${scrollY}px`;
+        style.width = "100%";
+        style.overflow = "hidden";
+
+        const handleKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+        window.addEventListener("keydown", handleKey);
+
         return () => {
-            document.body.style.overflow = "";
-            window.removeEventListener("keydown", onEsc);
+            window.removeEventListener("keydown", handleKey);
+            style.position = prevPosition;
+            style.top = prevTop;
+            style.width = prevWidth;
+            style.overflow = prevOverflow;
+            window.scrollTo(0, scrollY);
         };
-    }, [open, onEsc]);
+    }, [open, onClose]);
 
     return (
         <AnimatePresence>
@@ -130,16 +149,18 @@ const ModalBase: React.FC<ModalBaseProps> = ({ open, onClose, children, maxW = "
                 <motion.div
                     role="dialog"
                     aria-modal="true"
-                    className="fixed inset-0 z-[70] grid place-items-center bg-black/70 p-4 backdrop-blur-sm"
+                    className="fixed inset-0 z-[70] grid place-items-center bg-black/70 p-4 backdrop-blur-sm md:backdrop-blur-md"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, transition: { duration: 0.2, ease: EASE } }}
-                    exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE } }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: EASE }}
                     onClick={onClose}
                 >
                     <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.25, ease: EASE } }}
-                        exit={{ opacity: 0, y: 6, scale: 0.98, transition: { duration: 0.15, ease: EASE } }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                        transition={{ duration: 0.25, ease: EASE }}
                         className={`relative w-full ${maxW} overflow-hidden rounded-2xl border border-white/10 bg-neutral-900`}
                         onClick={(e) => e.stopPropagation()}
                     >
@@ -202,7 +223,7 @@ const OnePageWeskale: React.FC = () => {
     if (!mounted) return null; // avoid hydration mismatch
 
     return (
-        <div className="relative min-h-screen w-full overflow-x-hidden bg-black text-white">
+        <div className="relative min-h-[100svh] w-full overflow-x-hidden bg-black text-white">
             {/* Background halos */}
             <div className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full bg-[var(--electric)]/20 blur-[120px]" />
             <div className="absolute top-[-10rem] right-[-6rem] h-[420px] w-[420px] rounded-full bg-violet-700/25 blur-[120px]" />
@@ -212,8 +233,8 @@ const OnePageWeskale: React.FC = () => {
             <FloatingOrb className="absolute bottom-24 left-1/3 h-52 w-52 -translate-x-1/2 rounded-full bg-fuchsia-500/20" delay={1.2} duration={22} />
             <Grain />
 
-            {/* Sticky Nav */}
-            <header className="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
+            {/* Sticky Nav (lighter blur on mobile) */}
+            <header className="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-sm md:backdrop-blur-md">
                 <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
                     <BrandMark />
                     <nav className="hidden gap-6 text-sm text-white/80 md:flex">
