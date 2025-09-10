@@ -1,7 +1,7 @@
 "use client";
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { CubicBezierDefinition, MotionProps } from "framer-motion";
+import type { MotionProps } from "framer-motion";
 import { ArrowRight, Instagram, Linkedin, Mail, X as Close } from "lucide-react";
 import Image from "next/image";
 
