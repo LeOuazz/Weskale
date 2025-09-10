@@ -1,16 +1,17 @@
+
 'use client';
 
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Hero, { ShaderBackground } from "../component/neural-network-hero";
-import JoinNetworkSection from "../component/join-network-section";
-import { Vortex } from "../component/vortex";
+import Hero, { ShaderBackground } from "./component/neural-network-hero";
+import JoinNetworkSection from "./component/join-network-section";
+import { Vortex } from "./component/vortex";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export default function PreviewPage() {
+export default function HomePage() {
     const containerRef = useRef<HTMLDivElement>(null);
     const heroBackgroundRef = useRef<HTMLDivElement>(null);
     const vortexBackgroundRef = useRef<HTMLDivElement>(null);
@@ -85,7 +86,7 @@ export default function PreviewPage() {
                 <Hero
                     title="We build legacies, not just outputs."
                     description="Weskale blends identity clarity, technical excellence, and scalable influence to turn ambition into sustained performance."
-                    badgeText="Calculated impact."
+                    badgeText="A new website experience is in progress."
                     badgeLabel="Weskale Agency"
                 />
 
