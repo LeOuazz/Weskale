@@ -1,8 +1,10 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils"; // assuming you use your util for cn()
 import { Sparkles } from "lucide-react";
-import React from "react";
 
 interface DisplayCardProps {
   className?: string;
@@ -12,113 +14,149 @@ interface DisplayCardProps {
   date?: string;
   iconClassName?: string;
   titleClassName?: string;
-  // New: variant
-  variant?: "purple" | "blue" | "green";
-}
-
-const variantMap = {
-  purple: {
-    bg: "bg-[#171322]",
-    border: "border-purple-700",
-    ring: "ring-2 ring-purple-700/20",
-    shadow: "shadow-purple-900/30",
-  },
-  blue: {
-    bg: "bg-[#151825]",
-    border: "border-blue-700",
-    ring: "ring-2 ring-blue-700/20",
-    shadow: "shadow-blue-900/30",
-  },
-  green: {
-    bg: "bg-[#132017]",
-    border: "border-green-700",
-    ring: "ring-2 ring-green-700/20",
-    shadow: "shadow-green-900/30",
-  },
-};
-
-function DisplayCard({
-                       className,
-                       icon = <Sparkles className="size-4 text-blue-300" />,
-                       title = "Featured",
-                       description = "Discover amazing content",
-                       date = "Just now",
-                       iconClassName,
-                       titleClassName,
-                       variant = "blue",
-                     }: DisplayCardProps) {
-  const style = variantMap[variant];
-
-  return (
-      <div
-          className={cn(
-              // stacking effect w/ stacking utility from your cards
-              "relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-2xl border-2 px-5 py-4 transition-all duration-700 shadow-xl backdrop-blur-sm hover:border-white/30 hover:scale-[1.03]",
-              style.bg,
-              style.border,
-              style.shadow,
-              style.ring,
-              className
-          )}
-      >
-        <div className="flex items-center gap-2">
-        <span
-            className={cn(
-                "inline-block rounded-full bg-white/10 p-2 shadow",
-                iconClassName
-            )}
-        >
-          {icon}
-        </span>
-          <p className={cn("text-lg font-semibold", titleClassName)}>{title}</p>
-        </div>
-        <p className="text-base text-white/90">{description}</p>
-        <p className="text-xs text-white/50">{date}</p>
-      </div>
-  );
+  details?: string;
+  color?: "purple" | "blue" | "green";
 }
 
 interface DisplayCardsProps {
   cards?: DisplayCardProps[];
 }
 
+const colorVariants = {
+  purple: {
+    bg: "bg-purple-900/70",
+    ring: "ring-purple-500/30",
+    text: "text-purple-300",
+    shadow: "shadow-purple-900/30",
+  },
+  blue: {
+    bg: "bg-blue-900/70",
+    ring: "ring-blue-500/30",
+    text: "text-blue-300",
+    shadow: "shadow-blue-900/30",
+  },
+  green: {
+    bg: "bg-green-900/70",
+    ring: "ring-green-500/30",
+    text: "text-green-300",
+    shadow: "shadow-green-900/30",
+  },
+};
+
 export default function DisplayCards({ cards }: DisplayCardsProps) {
-  // Default demo cards if none provided
-  const defaultCards: DisplayCardProps[] = [
-    {
-      variant: "purple",
-      title: "ID Studio",
-      icon: <Sparkles className="size-4 text-purple-300" />,
-      description: "Brand identity & visual systems",
-      date: "Creative Excellence",
-      className: "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration:700 hover:grayscale-0 before:left-0 before:top-0",
-    },
-    {
-      variant: "blue",
-      title: "Weskale Digital",
-      icon: <Sparkles className="size-4 text-blue-300" />,
-      description: "Digital platforms & experiences",
-      date: "Technical Excellence",
-      className: "[grid-area:stack] translate-x-16 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration:700 hover:grayscale-0 before:left-0 before:top-0",
-    },
-    {
-      variant: "green",
-      title: "Weskale Influence",
-      icon: <Sparkles className="size-4 text-green-300" />,
-      description: "Growth & market positioning",
-      date: "Scalable Impact",
-      className: "[grid-area:stack] translate-x-32 translate-y-20 hover:translate-y-10",
-    },
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+
+  // Spacing for "stacked" cards on desktop
+  const desktopPositions = [
+    "left-0 bottom-0 z-10",
+    "left-14 bottom-8 z-20",
+    "left-28 bottom-16 z-30",
   ];
 
-  // Use provided or default cards
-  const displayCards = cards || defaultCards;
-
+  // Responsive: show vertical on mobile
   return (
-      <div className="grid [grid-template-areas:'stack'] place-items-center opacity-100 animate-in fade-in-0 duration-700">
-        {displayCards.map((cardProps, index) => (
-            <DisplayCard key={index} {...cardProps} />
-        ))}
+      <div className="relative w-full flex items-end justify-center min-h-[250px] md:min-h-[250px] max-w-2xl mx-auto select-none">
+        {/* Mobile: vertical stack */}
+        <div className="flex flex-col gap-6 md:hidden w-full">
+          {cards?.map((card, idx) => {
+            const color = card.color ?? "purple";
+            return (
+                <motion.div
+                    key={idx}
+                    className={cn(
+                        "relative w-full rounded-2xl border-2 border-white/10 bg-black/80 backdrop-blur-lg shadow-lg cursor-pointer px-5 py-6 transition-all duration-300",
+                        colorVariants[color].shadow,
+                        openIdx === idx ? `ring-2 ${colorVariants[color].ring}` : "",
+                        openIdx === idx ? "z-40 scale-105" : "hover:scale-102"
+                    )}
+                    onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, type: "spring", stiffness: 140 }}
+                >
+                  <CardContent card={card} open={openIdx === idx} />
+                </motion.div>
+            );
+          })}
+        </div>
+        {/* Desktop: layered cards */}
+        <div className="hidden md:block relative w-[420px] min-h-[240px]">
+          {cards?.map((card, idx) => {
+            const color = card.color ?? "purple";
+            return (
+                <motion.div
+                    key={idx}
+                    className={cn(
+                        "absolute transition-all duration-500 ease-[cubic-bezier(.22,1,.36,1)] w-[18rem] shadow-xl rounded-2xl cursor-pointer",
+                        colorVariants[color].shadow,
+                        desktopPositions[idx],
+                        openIdx === idx ? `ring-2 ${colorVariants[color].ring} z-40 scale-105` : "hover:scale-102",
+                        openIdx !== null && openIdx !== idx ? "blur-[2px] grayscale-[60%] opacity-70 z-0" : ""
+                    )}
+                    style={{
+                      left: `${idx * 3.5}rem`,
+                      bottom: `${idx * 1.7}rem`,
+                    }}
+                    onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                    initial={{ opacity: 0, y: 22, scale: 0.96 }}
+                    animate={{
+                      opacity: 1,
+                      y: openIdx === idx ? -16 : 0,
+                      scale: openIdx === idx ? 1.08 : 1,
+                    }}
+                    transition={{ duration: 0.45, type: "spring", stiffness: 120 }}
+                >
+                  <CardContent card={card} open={openIdx === idx} />
+                </motion.div>
+            );
+          })}
+        </div>
+      </div>
+  );
+}
+
+// Card Content (for re-use)
+function CardContent({
+                       card,
+                       open,
+                     }: {
+  card: DisplayCardProps;
+  open: boolean;
+}) {
+  const color = card.color ?? "purple";
+  return (
+      <div className="relative flex flex-col justify-between w-full rounded-2xl px-4 py-4 min-h-[120px] bg-gradient-to-br from-white/5 via-black/70 to-black/80 backdrop-blur-md transition">
+        <div className="flex items-center gap-3 mb-2">
+        <span className={cn(
+            "inline-block rounded-full p-1",
+            colorVariants[color].bg
+        )}>
+          {card.icon ?? <Sparkles className="size-5 text-blue-200" />}
+        </span>
+          <span className={cn("font-semibold text-lg", colorVariants[color].text, card.titleClassName)}>
+          {card.title ?? "Featured"}
+        </span>
+        </div>
+        <div className="text-base font-medium text-white/80">{card.description ?? "Discover amazing content"}</div>
+        <div className="mt-2 text-xs text-white/40">{card.date ?? "Just now"}</div>
+        <AnimatePresence>
+          {open && (
+              <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 24 }}
+                  transition={{ duration: 0.25 }}
+                  className={cn(
+                      "mt-5 p-4 rounded-xl shadow-inner text-white/90 border border-white/10",
+                      colorVariants[color].bg
+                  )}
+              >
+                <div className="text-sm">
+                  {card.details ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus."}
+                </div>
+              </motion.div>
+          )}
+        </AnimatePresence>
       </div>
   );
 }

@@ -94,7 +94,7 @@ export default function SolutionsPage() {
             icon: <Palette className="size-4 text-purple-300" />,
             title: "ID Studio",
             description: "Brand identity & visual systems",
-            date: "Creative Excellence",
+            date: "Creative Excellence", 
             iconClassName: "text-purple-500",
             titleClassName: "text-purple-500",
             className: "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration:700 hover:grayscale-0 before:left-0 before:top-0",
