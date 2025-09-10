@@ -233,25 +233,6 @@ export default function SolutionsPage() {
                 </div>
             </header>
 
-            {/* Hero Section */}
-            <section className="relative py-24 px-6">
-                <div className="mx-auto max-w-6xl text-center">
-                    <motion.div {...fadeInView(0)}>
-                        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-                            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 animate-pulse" />
-                            <span className="text-sm text-white/80">Complete solution portfolio</span>
-                        </div>
-
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-                            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">Solutions</span>
-                        </h1>
-                        <p className="text-xl text-white/70 max-w-3xl mx-auto mb-12 leading-relaxed">
-                            Three pillars of excellence designed to transform your business from foundation to scale
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
-
             {/* Solutions Showcase */}
             <section id="solutions" className="relative py-20 px-6">
                 <div className="mx-auto max-w-6xl">
