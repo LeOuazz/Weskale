@@ -85,7 +85,7 @@ export default function PreviewPage() {
                 <Hero
                     title="We build legacies, not just outputs."
                     description="Weskale blends identity clarity, technical excellence, and scalable influence to turn ambition into sustained performance."
-                    badgeText="Measured creativity. Calculated impact."
+                    badgeText="Calculated impact."
                     badgeLabel="Weskale Agency"
                 />
 

@@ -244,7 +244,7 @@ export default function Hero({
                                      { text: "Book a meeting", href: "#get-started", primary: true },
                                      { text: "Explore solutions", href: "#showcase" }
                                  ],
-                                 microDetails = ["Low‑weight font", "Tight tracking", "Subtle motion"]
+                                 microDetails = ["ID STUDIO", "Weskale DIGITAL", "Weskale INFLUENCE"]
                              }: HeroProps) {
     const sectionRef = useRef<HTMLElement | null>(null);
     const headerRef = useRef<HTMLHeadingElement | null>(null);
