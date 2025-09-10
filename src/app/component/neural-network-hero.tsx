@@ -242,7 +242,7 @@ export default function Hero({
                                  badgeLabel = "Weskale Agency",
                                  ctaButtons = [
                                      { text: "Book a meeting", href: "https://calendly.com/contact-weskaleagency/30min?month=2025-09" , primary: true },
-                                     { text: "Explore solutions", href: "#solutions", primary: false },
+                                     { text: "Explore solutions", href: "/solutions", primary: false },
                                  ],
                                  microDetails = ["ID STUDIO", "Weskale DIGITAL", "Weskale INFLUENCE"]
                              }: HeroProps) {
