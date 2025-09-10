@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Building2, Globe, TrendingUp, Users, MessageSquare, Calendar, Mail, X, Palette, Code2, BarChart3 } from "lucide-react";
-import DisplayCards from "@/components/display-cards";
+import DisplayCards from "@/app/component/display-cards";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

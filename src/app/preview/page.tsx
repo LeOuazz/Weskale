@@ -5,9 +5,9 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Hero, { ShaderBackground } from "./component/neural-network-hero";
-import JoinNetworkSection from "./component/join-network-section";
-import { Vortex } from "./component/vortex";
+import Hero, { ShaderBackground } from "@/app/component/neural-network-hero";
+import JoinNetworkSection from "@/app/component/join-network-section";
+import { Vortex } from "@/app/component/vortex";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
