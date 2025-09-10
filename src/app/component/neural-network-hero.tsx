@@ -1,17 +1,14 @@
-
 'use client';
 
 import { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import * as THREE from 'three';
-import { useRouter } from 'next/navigation';
 
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Calendar } from 'lucide-react';
 
 gsap.registerPlugin(SplitText, ScrollTrigger, useGSAP);
 
@@ -130,242 +127,259 @@ const fragmentShader = `
     buf[7] = sigmoid(buf[7]);
 
     // layer 9 ********************************************************************
-    buf[0] = mat4(vec4(-3.8754263, 11.226847, -2.7636797, -5.3547373), vec4(-5.341476, 5.8982706, -18.632685, 1.0655043), vec4(2.9695559, -3.9302597, -6.7859373, -2.7779202), vec4(-1.1906605, 11.041275, -9.2978115, -5.1058826))
+    buf[0] = mat4(vec4(1.6794263, 1.3817469, 2.9625452, 0.0), vec4(-1.8834411, -1.4806935, -3.5924516, 0.0), vec4(-1.3279216, -1.0918057, -2.3124623, 0.0), vec4(0.2662234, 0.23235129, 0.44178495, 0.0))
     * buf[0]
-    + mat4(vec4(4.9951377, -15.652348, -19.850525, -13.524628), vec4(5.8159423, -12.584785, -8.433746, -13.6675625), vec4(-8.063725, 10.838669, -4.8638573, 1.5297084), vec4(-5.7717137, 6.5669184, 14.033997, 7.8652616))
+    + mat4(vec4(-0.6299101, -0.5945583, -0.9125601, 0.0), vec4(0.17828953, 0.18300213, 0.18182953, 0.0), vec4(-2.96544, -2.5819945, -4.9001055, 0.0), vec4(1.4195864, 1.1868085, 2.5176322, 0.0))
     * buf[1]
-    + mat4(vec4(-5.4628067, -6.1993456, 7.8536816, 3.7830296), vec4(-5.3854857, 3.8424425, 10.654037, 9.829607), vec4(-7.2568054, -10.854516, -5.7434382, -0.4633987), vec4(-4.8169155, -8.779686, 3.4085898, -0.6015239))
+    + mat4(vec4(-1.2584374, -1.0552157, -2.1688404, 0.0), vec4(-0.7200217, -0.52666044, -1.438251, 0.0), vec4(0.15345335, 0.15196142, 0.272854, 0.0), vec4(0.945728, 0.8861938, 1.2766753, 0.0))
     * buf[2]
-    + mat4(vec4(-19.072758, -20.4086, -0.029654831, -6.3063607), vec4(-0.86103654, -8.433901, 8.628815, 5.7616606), vec4(-8.072371, 10.023739, -30.08775, -1.0851994), vec4(-3.9554763, -17.127853, -1.5398645, -5.9765005))
+    + mat4(vec4(-2.4218085, -1.968602, -4.35166, 0.0), vec4(-22.683098, -18.0544, -41.954372, 0.0), vec4(0.63792, 0.5470648, 1.1078634, 0.0), vec4(-1.5489894, -1.3075932, -2.6444845, 0.0))
     * buf[3]
-    + mat4(vec4(11.700768, 120.99188, 1.2700186, -1.1978078), vec4(6.439969, 6.5495753, 5.593476, 8.260329), vec4(5.0084767, 1.4092866, 3.3892424, 4.3297825), vec4(-1.6302823, 111.94994, -2.0651627, 11.063926))
+    + mat4(vec4(-0.49252132, -0.39877754, -0.91366625, 0.0), vec4(0.95609266, 0.7923952, 1.640221, 0.0), vec4(0.30616966, 0.15693925, 0.8639857, 0.0), vec4(1.1825981, 0.94504964, 2.176963, 0.0))
     * buf[4]
-    + mat4(vec4(4.9226556, -2.2842512, -0.06915115, -0.8090372), vec4(3.9067535, 4.2737126, -0.16632801, 0.40424305), vec4(-1.4395764, -3.7009208, 5.659659, -0.95593506), vec4(2.4808464, -1.9648035, 4.253838, 2.0139413))
+    + mat4(vec4(0.35446745, 0.3293795, 0.59547555, 0.0), vec4(-0.58784515, -0.48177817, -1.0614829, 0.0), vec4(2.5271258, 1.9991658, 4.6846647, 0.0), vec4(0.13042648, 0.08864098, 0.30187556, 0.0))
     * buf[5]
-    + mat4(vec4(2.7062273, -37.78506, -2.7695518, 1.8663154), vec4(-1.5013618, -1.6031618, -1.4843506, -1.3635066), vec4(-0.28003767, -0.22932249, -1.5067818, -1.6032585), vec4(5.4651394, -38.152313, 1.1598394, -2.9663303))
+    + mat4(vec4(-1.7718065, -1.4033192, -3.3355875, 0.0), vec4(3.1664357, 2.638297, 5.378702, 0.0), vec4(-3.1724713, -2.6107926, -5.549295, 0.0), vec4(-2.851368, -2.249092, -5.3013067, 0.0))
     * buf[6]
-    + mat4(vec4(-6.5633774, 5.652834, 1.5336151, 1.5653535), vec4(0.6924783, 0.83906615, 0.6015718, 0.92244405), vec4(-1.4301262, -2.5398092, -10.901134, -2.7020588), vec4(-0.17983542, 5.533695, -1.1976718, -0.2655029))
+    + mat4(vec4(1.5203838, 1.2212278, 2.8404984, 0.0), vec4(1.5210563, 1.2651345, 2.683903, 0.0), vec4(2.9789467, 2.4364579, 5.2347264, 0.0), vec4(2.2270417, 1.8825914, 3.8028636, 0.0))
     * buf[7]
-    + vec4(4.7068477, -2.9669337, 0.26894927, 0.6037451);
+    + vec4(-1.5468478, -3.6171484, 0.24762098, 0.0);
 
     buf[0] = sigmoid(buf[0]);
-
-    // output layer ****************************************************************
-    vec4 out0 = mat4(vec4(4.081089, 0.42036787, -4.1688004, -4.7830305), vec4(4.2329836, 0.3764146, -4.3072662, -4.976969), vec4(4.5005713, 0.29444793, -4.7167864, -5.4770494), vec4(3.5641623, 0.43804276, -3.6188602, -4.1743093))
-    * buf[0]
-    + vec4(-0.11269844, -0.028633533, 0.14076644, 0.16344327);
-
-    return out0;
+    return vec4(buf[0].x , buf[0].y , buf[0].z, 1.0);
   }
   
   void main() {
-    vec2 xy = vUv - vec2(0.5, 0.5);
-    vec2 coord = xy * 8.0;
-    vec4 result = cppn_fn(coord, sin(iTime * 0.3) * 0.5, sin(iTime * 0.17) * 0.3, cos(iTime * 0.41) * 0.4);
-    
-    vec3 color = vec3(
-      result.x * 0.5 + 0.5,
-      result.y * 0.5 + 0.5,
-      result.z * 0.5 + 0.5
-    );
-    
-    // Apply blue-purple color scheme
-    color = mix(color, vec3(0.0, 0.7, 1.0), 0.6);
-    color = mix(color, vec3(0.5, 0.0, 1.0), sin(iTime * 0.1) * 0.3 + 0.3);
-    
-    gl_FragColor = vec4(color, 1.0);
+    vec2 uv = vUv * 2.0 - 1.0; uv.y *= -1.0;
+    gl_FragColor = cppn_fn(uv, 0.1 * sin(0.3 * iTime), 0.1 * sin(0.69 * iTime), 0.1 * sin(0.44 * iTime));
   }
 `;
 
-// Create shader material
-const NeuralMaterial = shaderMaterial(
-    {
-        iTime: 0,
-        iResolution: new THREE.Vector2()
-    },
+const CPPNShaderMaterial = shaderMaterial(
+    { iTime: 0, iResolution: new THREE.Vector2(1, 1) },
     vertexShader,
     fragmentShader
 );
 
-extend({ NeuralMaterial });
+extend({ CPPNShaderMaterial });
 
-// ===================== SHADER MESH =====================
-function ShaderMesh() {
-    const meshRef = useRef<THREE.Mesh>(null);
+function ShaderPlane() {
+    const meshRef = useRef<THREE.Mesh>(null!);
+    const materialRef = useRef<any>(null!);
 
     useFrame((state) => {
-        if (meshRef.current) {
-            // @ts-ignore
-            meshRef.current.material.iTime = state.clock.elapsedTime;
-            // @ts-ignore
-            meshRef.current.material.iResolution.set(window.innerWidth, window.innerHeight);
-        }
+        if (!materialRef.current) return;
+        materialRef.current.iTime = state.clock.elapsedTime;
+        const { width, height } = state.size;
+        materialRef.current.iResolution.set(width, height);
     });
 
     return (
-        <mesh ref={meshRef} scale={[2, 2, 1]}>
-            <planeGeometry args={[2, 2]} />
-            {/* @ts-ignore */}
-            <neuralMaterial />
+        <mesh ref={meshRef} position={[0, -0.75, -0.5]}>
+            <planeGeometry args={[4, 4]} />
+            <cPPNShaderMaterial ref={materialRef} side={THREE.DoubleSide} />
         </mesh>
     );
 }
 
-// ===================== SHADER BACKGROUND COMPONENT =====================
-export function ShaderBackground() {
+// Extract ShaderBackground as a separate component that can be positioned
+export function ShaderBackground({ className = "", style = {} }: { className?: string; style?: React.CSSProperties }) {
+    const canvasRef = useRef<HTMLDivElement | null>(null);
+
+    const camera = useMemo(() => ({ position: [0, 0, 1] as [number, number, number], fov: 75, near: 0.1, far: 1000 }), []);
+
+    useGSAP(
+        () => {
+            if (!canvasRef.current) return;
+
+            gsap.set(canvasRef.current, {
+                filter: 'blur(20px)',
+                scale: 1.1,
+                autoAlpha: 0.7
+            });
+
+            gsap.to(canvasRef.current, {
+                filter: 'blur(0px)',
+                scale: 1,
+                autoAlpha: 1,
+                duration: 1.5,
+                ease: 'power3.out',
+                delay: 0.3
+            });
+        },
+        { scope: canvasRef }
+    );
+
     return (
-        <div className="absolute inset-0 w-full h-full">
+        <div ref={canvasRef} className={`bg-black w-full h-full ${className}`} style={style} aria-hidden>
             <Canvas
-                camera={{ position: [0, 0, 1] }}
+                camera={camera}
+                gl={{ antialias: true, alpha: false }}
+                dpr={[1, 2]}
                 style={{ width: '100%', height: '100%' }}
             >
-                <ShaderMesh />
+                <ShaderPlane />
             </Canvas>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20" />
         </div>
     );
 }
 
-// ===================== HERO COMPONENT =====================
+// ===================== HERO =====================
 interface HeroProps {
-    title?: string;
-    description?: string;
+    title: string;
+    description: string;
     badgeText?: string;
     badgeLabel?: string;
+    ctaButtons?: Array<{ text: string; href: string; primary?: boolean }>;
+    microDetails?: Array<string>;
 }
 
 export default function Hero({
-                                 title = "Measured creativity. Calculated impact.",
-                                 description = "We build legacies, not just outputs. Weskale blends identity clarity, technical excellence, and scalable influence to turn ambition into sustained performance.",
-                                 badgeText = "A new website experience is in progress.",
-                                 badgeLabel = "Coming Soon"
+                                 title,
+                                 description,
+                                 badgeText = "We build legacies, not just outputs.",
+                                 badgeLabel = "Weskale Agency",
+                                 ctaButtons = [
+                                     { text: "Book a meeting", href: "#get-started", primary: true },
+                                     { text: "Explore solutions", href: "#showcase" }
+                                 ],
+                                 microDetails = ["ID STUDIO", "Weskale DIGITAL", "Weskale INFLUENCE"]
                              }: HeroProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const titleRef = useRef<HTMLHeadingElement>(null);
-    const descriptionRef = useRef<HTMLParagraphElement>(null);
-    const buttonsRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
+    const sectionRef = useRef<HTMLElement | null>(null);
+    const headerRef = useRef<HTMLHeadingElement | null>(null);
+    const paraRef = useRef<HTMLParagraphElement | null>(null);
+    const ctaRef = useRef<HTMLDivElement | null>(null);
+    const badgeRef = useRef<HTMLDivElement | null>(null);
+    const microRef = useRef<HTMLUListElement | null>(null);
+    const microItem1Ref = useRef<HTMLLIElement | null>(null);
+    const microItem2Ref = useRef<HTMLLIElement | null>(null);
+    const microItem3Ref = useRef<HTMLLIElement | null>(null);
 
-    const handleBookMeeting = () => {
-        window.open('https://calendly.com/contact-weskaleagency/30min?month=2025-09', '_blank');
-    };
+    useGSAP(
+        () => {
+            if (!headerRef.current) return;
 
-    const handleExploreSolutions = () => {
-        router.push('/solutions');
-    };
+            document.fonts.ready.then(() => {
+                const split = new SplitText(headerRef.current!, {
+                    type: 'lines',
+                    wordsClass: 'lines',
+                });
 
-    useGSAP(() => {
-        if (!containerRef.current || !titleRef.current || !descriptionRef.current || !buttonsRef.current) return;
+                gsap.set(split.lines, {
+                    filter: 'blur(16px)',
+                    yPercent: 30,
+                    autoAlpha: 0,
+                    scale: 1.06,
+                    transformOrigin: '50% 100%',
+                });
 
-        const tl = gsap.timeline({ delay: 0.5 });
+                if (badgeRef.current) {
+                    gsap.set(badgeRef.current, { autoAlpha: 0, y: -8 });
+                }
+                if (paraRef.current) {
+                    gsap.set(paraRef.current, { autoAlpha: 0, y: 8 });
+                }
+                if (ctaRef.current) {
+                    gsap.set(ctaRef.current, { autoAlpha: 0, y: 8 });
+                }
+                const microItems = [microItem1Ref.current, microItem2Ref.current, microItem3Ref.current].filter(Boolean);
+                if (microItems.length > 0) {
+                    gsap.set(microItems, { autoAlpha: 0, y: 6 });
+                }
 
-        // Split title text for animation
-        const splitTitle = new SplitText(titleRef.current, {
-            type: 'lines,words',
-            linesClass: 'split-line',
-        });
+                const tl = gsap.timeline({
+                    defaults: { ease: 'power3.out' },
+                });
 
-        // Set initial states
-        gsap.set(splitTitle.words, {
-            y: 100,
-            opacity: 0,
-        });
+                if (badgeRef.current) {
+                    tl.to(badgeRef.current, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.0);
+                }
 
-        gsap.set(descriptionRef.current, {
-            y: 50,
-            opacity: 0,
-        });
+                tl.to(
+                    split.lines,
+                    {
+                        filter: 'blur(0px)',
+                        yPercent: 0,
+                        autoAlpha: 1,
+                        scale: 1,
+                        duration: 0.9,
+                        stagger: 0.15,
+                    },
+                    0.1,
+                );
 
-        gsap.set(buttonsRef.current, {
-            y: 30,
-            opacity: 0,
-        });
-
-        // Animate title words
-        tl.to(splitTitle.words, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.02,
-            ease: 'power3.out',
-        });
-
-        // Animate description
-        tl.to(
-            descriptionRef.current,
-            {
-                y: 0,
-                opacity: 1,
-                duration: 0.6,
-                ease: 'power3.out',
-            },
-            '-=0.3'
-        );
-
-        // Animate buttons
-        tl.to(
-            buttonsRef.current,
-            {
-                y: 0,
-                opacity: 1,
-                duration: 0.6,
-                ease: 'power3.out',
-            },
-            '-=0.2'
-        );
-
-        // Cleanup
-        return () => {
-            splitTitle.revert();
-        };
-    }, { scope: containerRef });
+                if (paraRef.current) {
+                    tl.to(paraRef.current, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.55');
+                }
+                if (ctaRef.current) {
+                    tl.to(ctaRef.current, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.35');
+                }
+                if (microItems.length > 0) {
+                    tl.to(microItems, { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.1 }, '-=0.25');
+                }
+            });
+        },
+        { scope: sectionRef },
+    );
 
     return (
-        <section ref={containerRef} className="relative min-h-screen flex items-center justify-center px-6 py-12">
-            {/* Background gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60" />
+        <section ref={sectionRef} className="relative h-screen w-screen overflow-hidden">
+            {/* Background with fixed positioning for smooth transition */}
+            <div className="absolute inset-0 -z-10">
+                <ShaderBackground />
+            </div>
 
-            {/* Content */}
-            <div className="relative z-10 max-w-4xl mx-auto text-center">
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 animate-pulse" />
-                    <span className="text-sm text-white/80">{badgeText}</span>
+            <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
+                <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                    <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
+                    <span className="h-1 w-1 rounded-full bg-white/40" />
+                    <span className="text-xs font-light tracking-tight text-white/80">{badgeText}</span>
                 </div>
 
-                {/* Title */}
-                <h1 ref={titleRef} className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-                    <span className="text-white">Measured creativity.</span>
-                    <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">
-            Calculated impact.
-          </span>
+                <h1 ref={headerRef} className="max-w-2xl text-left text-5xl font-extralight leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
+                    {title}
                 </h1>
 
-                {/* Description */}
-                <p ref={descriptionRef} className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed">
+                <p ref={paraRef} className="max-w-xl text-left text-base font-light leading-relaxed tracking-tight text-white/75 sm:text-lg">
                     {description}
                 </p>
 
-                {/* Action Buttons */}
-                <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <button
-                        onClick={handleBookMeeting}
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-semibold hover:bg-white/90 transition-all duration-300 hover:scale-105"
-                    >
-                        <Calendar className="w-5 h-5" />
-                        Book a meeting
-                        <ArrowRight className="w-5 h-5" />
-                    </button>
-
-                    <button
-                        onClick={handleExploreSolutions}
-                        className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 text-white rounded-full font-medium hover:bg-white/10 transition-all duration-300"
-                    >
-                        Explore our solutions
-                        <ArrowRight className="w-5 h-5" />
-                    </button>
+                <div ref={ctaRef} className="flex flex-wrap items-center gap-3 pt-2">
+                    {ctaButtons.map((button, index) => (
+                        <a
+                            key={index}
+                            href={button.href}
+                            className={`rounded-2xl border border-white/10 px-5 py-3 text-sm font-light tracking-tight transition-colors focus:outline-none focus:ring-2 focus:ring-white/30 duration-300 ${
+                                button.primary
+                                    ? "bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+                                    : "text-white/80 hover:bg-white/5"
+                            }`}
+                        >
+                            {button.text}
+                        </a>
+                    ))}
                 </div>
+
+                <ul ref={microRef} className="mt-8 flex flex-wrap gap-6 text-xs font-extralight tracking-tight text-white/60">
+                    {microDetails.map((detail, index) => {
+                        const refMap = [microItem1Ref, microItem2Ref, microItem3Ref];
+                        return (
+                            <li key={index} ref={refMap[index]} className="flex items-center gap-2">
+                                <span className="h-1 w-1 rounded-full bg-white/40" /> {detail}
+                            </li>
+                        );
+                    })}
+                </ul>
             </div>
+
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
         </section>
     );
+}
+
+declare module '@react-three/fiber' {
+    interface ThreeElements {
+        cPPNShaderMaterial: any;
+    }
 }
