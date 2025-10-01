@@ -342,7 +342,7 @@ const OnePageWeskale: React.FC = () => {
                             },
                             {
                                 title: "03 — Foundations",
-                                text: "ID Studio refresh, design system, and technical baselines to ship faster with quality.",
+                                text: "Brandlab refresh, design system, and technical baselines to ship faster with quality.",
                             },
                             {
                                 title: "04 — Build & Integrate",
@@ -383,14 +383,14 @@ const OnePageWeskale: React.FC = () => {
                     <SectionGlow />
                     <Title top="Solutions engineered" bottom="for sustained growth" center />
                     <p className="mx-auto mt-3 max-w-2xl text-white/70">
-                        From ID Studio to Digital build and Influence scale, we deliver end-to-end value.
+                        From Brandlab to Digital build and Influence scale, we deliver end-to-end value.
                     </p>
 
                     <div className="mx-auto mt-10 grid max-w-3xl gap-6 md:grid-cols-3">
                         {[
                             {
                                 key: "identity",
-                                badge: "ID Studio",
+                                badge: "Brandlab",
                                 title: "Identity Systems & Story",
                                 items: ["Brand platforms", "Visual systems", "Playbooks", "Go-to-market narratives"],
                                 quote:
