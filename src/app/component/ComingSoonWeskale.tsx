@@ -305,11 +305,11 @@ const OnePageWeskale: React.FC = () => {
 
                     {/* Clickable pillars */}
                     <motion.div {...fadeInView(0.1)} className="mx-auto grid w-full max-w-3xl grid-cols-3 gap-4">
-                        {["ID Studio", "Digital", "Influence"].map((item) => (
+                        {["Brandlab", "Digital", "Influence"].map((item) => (
                             <button
                                 key={item}
                                 onClick={() =>
-                                    setExpertise(item === "ID Studio" ? "identity" : item === "Digital" ? "digital" : "influence")
+                                    setExpertise(item === "Brandlab" ? "identity" : item === "Digital" ? "digital" : "influence")
                                 }
                                 className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center text-sm text-white/80 backdrop-blur-sm transition hover:bg-white/10"
                             >
