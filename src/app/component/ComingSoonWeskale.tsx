@@ -377,7 +377,7 @@ const OnePageWeskale: React.FC = () => {
                 </div>
             </section>
 
-          {/* OUR SOLUTIONS */}
+        {/* OUR SOLUTIONS */}
 <section id="solutions" className="scroll-mt-24">
   <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
     <SectionGlow />
@@ -438,10 +438,11 @@ const OnePageWeskale: React.FC = () => {
             </ul>
           </div>
 
-          {/* Bouton collé en bas */}
+          {/* Bouton caché → visible au hover */}
           <button
             onClick={() => setCalOpen(true)}
-            className="mt-auto inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 transition hover:bg-white/10"
+            className="mt-auto inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 transition 
+                       opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/10"
           >
             Discuss this solution <ArrowRight className="h-4 w-4" />
           </button>
