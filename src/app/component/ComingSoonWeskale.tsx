@@ -377,7 +377,7 @@ const OnePageWeskale: React.FC = () => {
                 </div>
             </section>
 
-        {/* OUR SOLUTIONS */}
+       {/* OUR SOLUTIONS */}
 <section id="solutions" className="scroll-mt-24">
   <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
     <SectionGlow />
@@ -416,36 +416,38 @@ const OnePageWeskale: React.FC = () => {
         <motion.article
           key={s.title}
           {...fadeInView(i * 0.03)}
-          className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
+          className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
         >
-          {/* Haut de la card */}
-          <div>
-            <button
-              onClick={() => setExpertise(s.key as "identity" | "digital" | "influence")}
-              className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 transition hover:bg-white/10"
-            >
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
-              {s.badge}
-            </button>
-            <h3 className="text-lg font-semibold">{s.title}</h3>
-            <ul className="mt-3 space-y-1.5 text-sm text-white/70">
-              {s.items.map((it) => (
-                <li key={it} className="flex items-start gap-2">
-                  <span className="mt-1 block h-1.5 w-1.5 rounded-full bg-white/50" />
-                  <span>{it}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Bouton caché → visible au hover */}
+          {/* Badge */}
           <button
-            onClick={() => setCalOpen(true)}
-            className="mt-auto inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 transition 
-                       opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/10"
+            onClick={() => setExpertise(s.key as "identity" | "digital" | "influence")}
+            className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 transition hover:bg-white/10"
           >
-            Discuss this solution <ArrowRight className="h-4 w-4" />
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
+            {s.badge}
           </button>
+
+          {/* Titre + items */}
+          <h3 className="text-lg font-semibold">{s.title}</h3>
+          <ul className="mt-3 space-y-1.5 text-sm text-white/70">
+            {s.items.map((it) => (
+              <li key={it} className="flex items-start gap-2">
+                <span className="mt-1 block h-1.5 w-1.5 rounded-full bg-white/50" />
+                <span>{it}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Bouton → invisible par défaut, visible au hover */}
+          <div className="mt-6">
+            <button
+              onClick={() => setCalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 
+                         transition opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/10"
+            >
+              Discuss this solution <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
 
           {/* Glow au hover */}
           <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
@@ -470,6 +472,7 @@ const OnePageWeskale: React.FC = () => {
     </div>
   </div>
 </section>
+
             {/* CONTACTS */}
             <section id="contacts" className="scroll-mt-24">
                 <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
