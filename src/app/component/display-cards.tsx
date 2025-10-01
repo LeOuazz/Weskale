@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils"; // utilitaire className
+import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
 
 interface DisplayCardProps {
@@ -13,6 +13,7 @@ interface DisplayCardProps {
   description?: string;
   date?: string;
   details?: string;
+  withButton?: boolean; // ✅ nouvelle prop
 }
 
 interface DisplayCardsProps {
@@ -43,7 +44,6 @@ const colorVariants = {
 export default function DisplayCards({ cards }: DisplayCardsProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
-  // positions desktop
   const desktopPositions = [
     "left-0 bottom-0 z-10",
     "left-14 bottom-8 z-20",
@@ -152,10 +152,12 @@ function CardContent({
         {card.date ?? "Just now"}
       </div>
 
-      {/* Bouton aligné en bas */}
-      <button className="mt-auto rounded-xl border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/10 transition">
-        Discuss this solution →
-      </button>
+      {/* Bouton aligné en bas si demandé */}
+      {card.withButton && (
+        <button className="mt-auto rounded-xl border border-white/20 px-4 py-2 text-sm text-white hover:bg-white/10 transition">
+          Discuss this solution →
+        </button>
+      )}
 
       {/* Details (expand) */}
       <AnimatePresence>
@@ -180,4 +182,5 @@ function CardContent({
     </div>
   );
 }
+
 
