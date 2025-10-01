@@ -570,7 +570,7 @@ const OnePageWeskale: React.FC = () => {
             <QuoteModal
                 open={expertise === "identity"}
                 onClose={() => setExpertise(null)}
-                title="ID Studio"
+                title="Brandlab"
                 quote="Identity is not decoration—it’s the operating system for trust and decision-making."
             />
             <QuoteModal
@@ -604,6 +604,6 @@ export const metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Weskale — Premium Identity, Measured Growth",
-        description: "Build legacies with Weskale: ID Studio, Digital, Influence.",
+        description: "Build legacies with Weskale: Brandlab, Digital, Influence.",
     },
 };
