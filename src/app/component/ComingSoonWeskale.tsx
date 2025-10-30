@@ -342,7 +342,7 @@ const OnePageWeskale: React.FC = () => {
                             },
                             {
                                 title: "03 — Foundations",
-                                text: "ID Studio refresh, design system, and technical baselines to ship faster with quality.",
+                                text: "Brandlab refresh, design system, and technical baselines to ship faster with quality.",
                             },
                             {
                                 title: "04 — Build & Integrate",
@@ -377,95 +377,101 @@ const OnePageWeskale: React.FC = () => {
                 </div>
             </section>
 
-            {/* OUR SOLUTIONS */}
-            <section id="solutions" className="scroll-mt-24">
-                <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
-                    <SectionGlow />
-                    <Title top="Solutions engineered" bottom="for sustained growth" center />
-                    <p className="mx-auto mt-3 max-w-2xl text-white/70">
-                        From ID Studio to Digital build and Influence scale, we deliver end-to-end value.
-                    </p>
+       {/* OUR SOLUTIONS */}
+<section id="solutions" className="scroll-mt-24">
+  <div className="relative mx-auto w-full max-w-5xl px-6 py-16 text-center">
+    <SectionGlow />
+    <Title top="Solutions engineered" bottom="for sustained growth" center />
+    <p className="mx-auto mt-3 max-w-2xl text-white/70">
+      From Brandlab to Digital build and Influence scale, we deliver end-to-end value.
+    </p>
 
-                    <div className="mx-auto mt-10 grid max-w-3xl gap-6 md:grid-cols-3">
-                        {[
-                            {
-                                key: "identity",
-                                badge: "ID Studio",
-                                title: "Identity Systems & Story",
-                                items: ["Brand platforms", "Visual systems", "Playbooks", "Go-to-market narratives"],
-                                quote:
-                                    "Identity is not decoration. It’s the operating system for trust and decision-making.",
-                            },
-                            {
-                                key: "digital",
-                                badge: "Digital",
-                                title: "High-Performance Build",
-                                items: ["Web & apps", "CRO & analytics", "SEO & content ops", "CRM & automations"],
-                                quote:
-                                    "Software compounds. Clean architecture and tight feedback loops turn speed into advantage.",
-                            },
-                            {
-                                key: "influence",
-                                badge: "Influence",
-                                title: "Reach & Reputation",
-                                items: ["Creator programs", "Thought leadership", "PR assets", "Paid amplification"],
-                                quote:
-                                    "Distribution is strategy. The best stories win when they meet the right audience at the right time.",
-                            },
-                        ].map((s, i) => (
-                            <motion.article
-                                key={s.title}
-                                {...fadeInView(i * 0.03)}
-                                className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
-                            >
-                                <button
-                                    onClick={() => setExpertise(s.key as "identity" | "digital" | "influence")}
-                                    className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 transition hover:bg-white/10"
-                                >
-                                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
-                                    {s.badge}
-                                </button>
-                                <h3 className="text-lg font-semibold">{s.title}</h3>
-                                <ul className="mt-3 space-y-1.5 text-sm text-white/70">
-                                    {s.items.map((it) => (
-                                        <li key={it} className="flex items-start gap-2">
-                                            <span className="mt-1 block h-1.5 w-1.5 rounded-full bg-white/50" />
-                                            <span>{it}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div className="mt-6">
-                                    <button
-                                        onClick={() => setCalOpen(true)}
-                                        className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 transition hover:bg-white/10"
-                                    >
-                                        Discuss this solution <ArrowRight className="h-4 w-4" />
-                                    </button>
-                                </div>
+    <div className="mx-auto mt-10 grid max-w-3xl gap-6 md:grid-cols-3">
+      {[
+        {
+          key: "identity",
+          badge: "Brandlab",
+          title: "Identity Systems & Story",
+          items: ["Brand platforms", "Visual systems", "Playbooks", "Go-to-market narratives"],
+          quote:
+            "Identity is not decoration. It’s the operating system for trust and decision-making.",
+        },
+        {
+          key: "digital",
+          badge: "Digital",
+          title: "High-Performance Build",
+          items: ["Web & apps", "CRO & analytics", "SEO & content ops", "CRM & automations"],
+          quote:
+            "Software compounds. Clean architecture and tight feedback loops turn speed into advantage.",
+        },
+        {
+          key: "influence",
+          badge: "Influence",
+          title: "Reach & Reputation",
+          items: ["Creator programs", "Thought leadership", "PR assets", "Paid amplification"],
+          quote:
+            "Distribution is strategy. The best stories win when they meet the right audience at the right time.",
+        },
+      ].map((s, i) => (
+        <motion.article
+          key={s.title}
+          {...fadeInView(i * 0.03)}
+          className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-left"
+        >
+          {/* Badge */}
+          <button
+            onClick={() => setExpertise(s.key as "identity" | "digital" | "influence")}
+            className="mb-3 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70 transition hover:bg-white/10"
+          >
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[var(--electric)] via-violet-400 to-fuchsia-400" />
+            {s.badge}
+          </button>
 
-                                {/* Neon edge on hover */}
-                                <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
-                                    <div
-                                        className="absolute -inset-1 rounded-3xl blur-2xl"
-                                        style={{
-                                            background:
-                                                "linear-gradient(90deg, rgba(0,178,255,.18), rgba(139,92,246,.18), rgba(217,70,239,.12))",
-                                        }}
-                                    />
-                                </div>
+          {/* Titre + items */}
+          <h3 className="text-lg font-semibold">{s.title}</h3>
+          <ul className="mt-3 space-y-1.5 text-sm text-white/70">
+            {s.items.map((it) => (
+              <li key={it} className="flex items-start gap-2">
+                <span className="mt-1 block h-1.5 w-1.5 rounded-full bg-white/50" />
+                <span>{it}</span>
+              </li>
+            ))}
+          </ul>
 
-                                {/* Quote modal per card */}
-                                <QuoteModal
-                                    open={expertise === (s.key as "identity" | "digital" | "influence")}
-                                    onClose={() => setExpertise(null)}
-                                    title={s.badge}
-                                    quote={s.quote}
-                                />
-                            </motion.article>
-                        ))}
-                    </div>
-                </div>
-            </section>
+          {/* Bouton → invisible par défaut, visible au hover */}
+          <div className="mt-6">
+            <button
+              onClick={() => setCalOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm text-white/90 
+                         transition opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-hover:bg-white/10"
+            >
+              Discuss this solution <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          {/* Glow au hover */}
+          <div className="pointer-events-none absolute inset-0 opacity-0 transition group-hover:opacity-100">
+            <div
+              className="absolute -inset-1 rounded-3xl blur-2xl"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(0,178,255,.18), rgba(139,92,246,.18), rgba(217,70,239,.12))",
+              }}
+            />
+          </div>
+
+          {/* Quote modal */}
+          <QuoteModal
+            open={expertise === (s.key as "identity" | "digital" | "influence")}
+            onClose={() => setExpertise(null)}
+            title={s.badge}
+            quote={s.quote}
+          />
+        </motion.article>
+      ))}
+    </div>
+  </div>
+</section>
 
             {/* CONTACTS */}
             <section id="contacts" className="scroll-mt-24">
@@ -570,7 +576,7 @@ const OnePageWeskale: React.FC = () => {
             <QuoteModal
                 open={expertise === "identity"}
                 onClose={() => setExpertise(null)}
-                title="ID Studio"
+                title="Brandlab"
                 quote="Identity is not decoration—it’s the operating system for trust and decision-making."
             />
             <QuoteModal
@@ -604,6 +610,6 @@ export const metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Weskale — Premium Identity, Measured Growth",
-        description: "Build legacies with Weskale: ID Studio, Digital, Influence.",
+        description: "Build legacies with Weskale: Brandlab, Digital, Influence.",
     },
 };
