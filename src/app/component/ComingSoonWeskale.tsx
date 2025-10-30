@@ -215,7 +215,7 @@ const OnePageWeskale: React.FC = () => {
     const year = useMemo(() => new Date().getFullYear(), []);
     const scrollTo = useSmoothScroll();
     const [calOpen, setCalOpen] = useState(false);
-    const calendlyUrl = "https://api.leadconnectorhq.com/widget/bookings/ismael-chbani-personal-calendar-j1htsw9xdn3rdcc6u0p0p"; // TODO: VERIFY
+    const calendlyUrl = "https://api.leadconnectorhq.com/widget/bookings/ismael-chbani-personal-calendar-j1htsw9xd"; // TODO: VERIFY
 
     // Expertise modals
     const [expertise, setExpertise] = useState<null | "identity" | "digital" | "influence">(null);
