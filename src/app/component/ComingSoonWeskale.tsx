@@ -489,7 +489,7 @@ const OnePageWeskale: React.FC = () => {
                                     onClick={() => setCalOpen(true)}
                                     className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:opacity-90"
                                 >
-                                    Book via Calendly <ArrowRight className="h-4 w-4" />
+                                    Book here <ArrowRight className="h-4 w-4" />
                                 </button>
                             </div>
                         </motion.div>
