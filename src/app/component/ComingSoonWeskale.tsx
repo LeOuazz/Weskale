@@ -498,7 +498,7 @@ const OnePageWeskale: React.FC = () => {
                             <h3 className="text-lg font-semibold">Email</h3>
                             <p className="mt-2 text-sm text-white/70">Prefer writing? We read every message.</p>
                             <a
-                                href="mailto:hello@weskale.com"
+                                href="mailto:contact@weskaleagency.com"
                                 className="mt-4 inline-flex items-center gap-2 text-sm text-white/90 underline-offset-4 hover:underline"
                             >
                                 <Mail className="h-4 w-4" /> contact@weskaleagency.com
